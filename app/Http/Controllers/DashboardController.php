@@ -17,6 +17,9 @@ class DashboardController extends Controller
         $crm = null;
         $stageCounts = collect();
         $profile = null;
+        if ($user->hasRole('hr') && ! $user->hasRole('super-admin')) {
+    return redirect()->route('hr.candidates.index');
+}
 
         if ($user->hasRole('super-admin')) {
             $stats = [
@@ -28,6 +31,7 @@ class DashboardController extends Controller
                 'clients' => User::role('client')->count(),
                 'managers' => User::role('project-manager')->count(),
                 'finance' => User::role('finance')->count(),
+                'hr' => User::role('hr')->count(),
             ];
             $recent = User::with('roles')->latest()->take(5)->get();
         }

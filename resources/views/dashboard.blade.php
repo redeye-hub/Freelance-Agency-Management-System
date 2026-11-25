@@ -5,7 +5,7 @@
     $max = max(1, (int) ($stageCounts->max() ?? 0));
     $tiles = [];
     if ($stats) {
-        foreach (['total' => 'Total users', 'active' => 'Active', 'suspended' => 'Suspended', 'archived' => 'Archived', 'freelancers' => 'Freelancers', 'clients' => 'Clients', 'managers' => 'Project managers', 'finance' => 'Finance'] as $k => $label) {
+        foreach (['total' => 'Total users', 'active' => 'Active', 'suspended' => 'Suspended', 'archived' => 'Archived', 'freelancers' => 'Freelancers', 'clients' => 'Clients', 'managers' => 'Project managers', 'finance' => 'Finance', 'hr' => 'HR'] as $k => $label) {
             $tiles[] = [$label, $stats[$k]];
         }
     }

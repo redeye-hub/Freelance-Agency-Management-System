@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ApplicationController;              // NEW
+use App\Http\Controllers\Hr\CandidateController;             // NEW
+use App\Http\Controllers\Hr\OffboardingController;           // NEW
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FreelancerProfileController;
@@ -15,6 +18,10 @@ Route::get('/', fn () => view('welcome'))->name('home');
 // Public inquiry form (visitors)
 Route::get('/inquiry', [InquiryController::class, 'create'])->name('inquiry.create');
 Route::post('/inquiry', [InquiryController::class, 'store'])->middleware('throttle:5,1')->name('inquiry.store');
+
+// ---- HR (Hazrat): public freelancer application form ----            // NEW
+Route::get('/join', [ApplicationController::class, 'create'])->name('apply.create');
+Route::post('/join', [ApplicationController::class, 'store'])->middleware('throttle:5,1')->name('apply.store');
 
 Route::middleware(['auth', 'verified', 'active'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -41,6 +48,21 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
 
         Route::get('freelancers', [FreelancerSearchController::class, 'index'])->name('freelancers.index');
         Route::get('freelancers/{user}', [FreelancerSearchController::class, 'show'])->name('freelancers.show');
+    });
+
+    // ---- HR (Hazrat): recruitment pipeline + offboarding ----        // NEW
+    Route::middleware('role:super-admin|hr')->prefix('hr')->name('hr.')->group(function () {
+        Route::get('candidates', [CandidateController::class, 'index'])->name('candidates.index');
+        Route::get('candidates/{candidate}', [CandidateController::class, 'show'])->name('candidates.show');
+        Route::patch('candidates/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
+        Route::patch('candidates/{candidate}/stage', [CandidateController::class, 'updateStage'])->name('candidates.stage');
+        Route::post('candidates/{candidate}/approve', [CandidateController::class, 'approve'])->name('candidates.approve');
+        Route::post('candidates/{candidate}/documents', [CandidateController::class, 'storeDocument'])->name('candidates.documents.store');
+        Route::get('candidates/{candidate}/documents/{document}', [CandidateController::class, 'downloadDocument'])->name('candidates.documents.download');
+        Route::delete('candidates/{candidate}/documents/{document}', [CandidateController::class, 'destroyDocument'])->name('candidates.documents.destroy');
+
+        Route::get('offboarding', [OffboardingController::class, 'index'])->name('offboarding.index');
+        Route::patch('offboarding/{user}', [OffboardingController::class, 'update'])->name('offboarding.update');
     });
 
     // Admin only: user management
