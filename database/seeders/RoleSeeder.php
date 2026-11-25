@@ -14,13 +14,14 @@ class RoleSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        foreach (['super-admin', 'project-manager', 'finance', 'freelancer', 'client'] as $role) {
+        foreach (['super-admin', 'project-manager', 'finance', 'hr', 'freelancer', 'client'] as $role) {
             Role::findOrCreate($role);
         }
 
         $users = [
             ['Admin', 'admin@fams.test', 'super-admin'],
             ['Maya Manager', 'manager@fams.test', 'project-manager'],
+            ['Hana HR', 'hr@fams.test', 'hr'],
             ['Fahim Finance', 'finance@fams.test', 'finance'],
             ['Farhan Freelancer', 'freelancer@fams.test', 'freelancer'],
             ['Cara Client', 'client@fams.test', 'client'],

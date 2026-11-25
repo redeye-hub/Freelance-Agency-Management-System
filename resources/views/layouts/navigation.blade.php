@@ -23,6 +23,10 @@
 @role('super-admin')
     <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">Users</x-nav-link>
 @endrole
+@hasanyrole('super-admin|hr')
+    <x-nav-link :href="route('hr.candidates.index')" :active="request()->routeIs('hr.candidates.*')">Recruitment</x-nav-link>
+    <x-nav-link :href="route('hr.offboarding.index')" :active="request()->routeIs('hr.offboarding.*')">Offboarding</x-nav-link>
+@endhasanyrole
 @role('freelancer')
     <x-nav-link :href="route('freelancer.profile.edit')" :active="request()->routeIs('freelancer.profile.*')">My Skills &amp; Rates</x-nav-link>
 @endrole
