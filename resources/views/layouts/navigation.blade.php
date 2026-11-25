@@ -15,21 +15,36 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @hasanyrole('super-admin|project-manager')
+                    
+@hasanyrole('super-admin|project-manager')
     <x-nav-link :href="route('leads.index')" :active="request()->routeIs('leads.*')">Leads</x-nav-link>
     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">Clients</x-nav-link>
     <x-nav-link :href="route('freelancers.index')" :active="request()->routeIs('freelancers.*')">Freelancers</x-nav-link>
+    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">Projects</x-nav-link>
+    <x-nav-link :href="route('timesheets.review')" :active="request()->routeIs('timesheets.review')">Timesheets</x-nav-link>
 @endhasanyrole
+
 @role('super-admin')
     <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">Users</x-nav-link>
 @endrole
+
 @hasanyrole('super-admin|hr')
     <x-nav-link :href="route('hr.candidates.index')" :active="request()->routeIs('hr.candidates.*')">Recruitment</x-nav-link>
     <x-nav-link :href="route('hr.offboarding.index')" :active="request()->routeIs('hr.offboarding.*')">Offboarding</x-nav-link>
+    <x-nav-link :href="route('hr.leave.index')" :active="request()->routeIs('hr.leave.*')">Leave</x-nav-link>
+    <x-nav-link :href="route('hr.workload.index')" :active="request()->routeIs('hr.workload.*')">Workload</x-nav-link>
+    <x-nav-link :href="route('hr.contracts.index')" :active="request()->routeIs('hr.contracts.*')">Contracts</x-nav-link>
+    <x-nav-link :href="route('hr.scorecards.index')" :active="request()->routeIs('hr.scorecards.*')">Scorecards</x-nav-link>
 @endhasanyrole
+
 @role('freelancer')
-    <x-nav-link :href="route('freelancer.profile.edit')" :active="request()->routeIs('freelancer.profile.*')">My Skills &amp; Rates</x-nav-link>
+    <x-nav-link :href="route('freelancer.profile.edit')" :active="request()->routeIs('freelancer.profile.*')">My Skills & Rates</x-nav-link>
+    <x-nav-link :href="route('my.projects')" :active="request()->routeIs('my.projects') || request()->routeIs('projects.board') || request()->routeIs('projects.tasks.*')">My Projects</x-nav-link>
+    <x-nav-link :href="route('timesheet.index')" :active="request()->routeIs('timesheet.*')">Timesheet</x-nav-link>
+    <x-nav-link :href="route('leave.index')" :active="request()->routeIs('leave.*')">Leave</x-nav-link>
+    <x-nav-link :href="route('my.contracts')" :active="request()->routeIs('my.contracts*')">Contracts</x-nav-link>
 @endrole
+
                 </div>
             </div>
 
@@ -85,17 +100,28 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            @hasanyrole('super-admin|project-manager')
-    <x-responsive-nav-link :href="route('leads.index')" :active="request()->routeIs('leads.*')">Leads</x-responsive-nav-link>
-    <x-responsive-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">Clients</x-responsive-nav-link>
-    <x-responsive-nav-link :href="route('freelancers.index')" :active="request()->routeIs('freelancers.*')">Freelancers</x-responsive-nav-link>
+            
+@hasanyrole('super-admin|hr')
+    <x-responsive-nav-link :href="route('hr.candidates.index')" :active="request()->routeIs('hr.candidates.*')">Recruitment</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('hr.offboarding.index')" :active="request()->routeIs('hr.offboarding.*')">Offboarding</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('hr.leave.index')" :active="request()->routeIs('hr.leave.*')">Leave</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('hr.workload.index')" :active="request()->routeIs('hr.workload.*')">Workload</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('hr.contracts.index')" :active="request()->routeIs('hr.contracts.*')">Contracts</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('hr.scorecards.index')" :active="request()->routeIs('hr.scorecards.*')">Scorecards</x-responsive-nav-link>
 @endhasanyrole
+
 @role('super-admin')
     <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">Users</x-responsive-nav-link>
 @endrole
+
 @role('freelancer')
-    <x-responsive-nav-link :href="route('freelancer.profile.edit')" :active="request()->routeIs('freelancer.profile.*')">My Skills &amp; Rates</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('freelancer.profile.edit')" :active="request()->routeIs('freelancer.profile.*')">My Skills & Rates</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('my.projects')" :active="request()->routeIs('my.projects') || request()->routeIs('projects.board') || request()->routeIs('projects.tasks.*')">My Projects</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('timesheet.index')" :active="request()->routeIs('timesheet.*')">Timesheet</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('leave.index')" :active="request()->routeIs('leave.*')">Leave</x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('my.contracts')" :active="request()->routeIs('my.contracts*')">Contracts</x-responsive-nav-link>
 @endrole
+
         </div>
 
         <!-- Responsive Settings Options -->
