@@ -23,6 +23,11 @@
     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">Projects</x-nav-link>
     <x-nav-link :href="route('timesheets.review')" :active="request()->routeIs('timesheets.review')">Timesheets</x-nav-link>
 @endhasanyrole
+@hasanyrole('super-admin|finance')
+    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">Invoices</x-nav-link>
+    <x-nav-link :href="route('payouts.index')" :active="request()->routeIs('payouts.*')">Payouts</x-nav-link>
+    <x-nav-link :href="route('reports.finance')" :active="request()->routeIs('reports.finance*')">Finance</x-nav-link>
+@endhasanyrole
 
 @role('super-admin')
     <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">Users</x-nav-link>
@@ -35,6 +40,7 @@
     <x-nav-link :href="route('hr.workload.index')" :active="request()->routeIs('hr.workload.*')">Workload</x-nav-link>
     <x-nav-link :href="route('hr.contracts.index')" :active="request()->routeIs('hr.contracts.*')">Contracts</x-nav-link>
     <x-nav-link :href="route('hr.scorecards.index')" :active="request()->routeIs('hr.scorecards.*')">Scorecards</x-nav-link>
+    <x-nav-link :href="route('hr.reports.index')" :active="request()->routeIs('hr.reports.*')">Reports</x-nav-link>
 @endhasanyrole
 
 @role('freelancer')
@@ -43,6 +49,7 @@
     <x-nav-link :href="route('timesheet.index')" :active="request()->routeIs('timesheet.*')">Timesheet</x-nav-link>
     <x-nav-link :href="route('leave.index')" :active="request()->routeIs('leave.*')">Leave</x-nav-link>
     <x-nav-link :href="route('my.contracts')" :active="request()->routeIs('my.contracts*')">Contracts</x-nav-link>
+    <x-nav-link :href="route('earnings.index')" :active="request()->routeIs('earnings.*')">Earnings</x-nav-link>
 @endrole
 
                 </div>
@@ -100,6 +107,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+@hasanyrole('super-admin|finance')
+    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">Invoices</x-nav-link>
+    <x-nav-link :href="route('payouts.index')" :active="request()->routeIs('payouts.*')">Payouts</x-nav-link>
+    <x-nav-link :href="route('reports.finance')" :active="request()->routeIs('reports.finance*')">Finance</x-nav-link>
+@endhasanyrole
             
 @hasanyrole('super-admin|hr')
     <x-responsive-nav-link :href="route('hr.candidates.index')" :active="request()->routeIs('hr.candidates.*')">Recruitment</x-responsive-nav-link>
@@ -108,6 +121,7 @@
     <x-responsive-nav-link :href="route('hr.workload.index')" :active="request()->routeIs('hr.workload.*')">Workload</x-responsive-nav-link>
     <x-responsive-nav-link :href="route('hr.contracts.index')" :active="request()->routeIs('hr.contracts.*')">Contracts</x-responsive-nav-link>
     <x-responsive-nav-link :href="route('hr.scorecards.index')" :active="request()->routeIs('hr.scorecards.*')">Scorecards</x-responsive-nav-link>
+    <x-nav-link :href="route('hr.reports.index')" :active="request()->routeIs('hr.reports.*')">Reports</x-nav-link>
 @endhasanyrole
 
 @role('super-admin')
@@ -120,6 +134,7 @@
     <x-responsive-nav-link :href="route('timesheet.index')" :active="request()->routeIs('timesheet.*')">Timesheet</x-responsive-nav-link>
     <x-responsive-nav-link :href="route('leave.index')" :active="request()->routeIs('leave.*')">Leave</x-responsive-nav-link>
     <x-responsive-nav-link :href="route('my.contracts')" :active="request()->routeIs('my.contracts*')">Contracts</x-responsive-nav-link>
+    <x-nav-link :href="route('earnings.index')" :active="request()->routeIs('earnings.*')">Earnings</x-nav-link>
 @endrole
 
         </div>

@@ -10,7 +10,8 @@ use App\Http\Controllers\ProjectBoardController;
 use App\Http\Controllers\TaskAttachmentController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\ProjectReviewController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PublicPaymentController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ApplicationController;
@@ -20,6 +21,9 @@ use App\Http\Controllers\Hr\ContractController;
 use App\Http\Controllers\Hr\LeaveReviewController;
 use App\Http\Controllers\Hr\ScorecardController;
 use App\Http\Controllers\Hr\WorkloadController;
+use App\Http\Controllers\ProjectReviewController;
+use App\Http\Controllers\Hr\HrReportController;
+use App\Http\Controllers\Reports\FinanceReportController;
 
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\MyContractController;
@@ -31,6 +35,8 @@ use App\Http\Controllers\FreelancerSearchController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EarningsController;
+use App\Http\Controllers\PayoutController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +60,16 @@ Route::get('/join', [ApplicationController::class, 'create'])
 Route::post('/join', [ApplicationController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('apply.store');
+
+// BARSON - Public Invoice Payment Routes
+// Clients can pay without logging in
+
+Route::get('pay/{invoice:public_token}', [PublicPaymentController::class, 'show'])
+    ->name('pay.show');
+
+Route::post('pay/{invoice:public_token}', [PublicPaymentController::class, 'pay'])
+    ->middleware('throttle:10,1')
+    ->name('pay.store');
 
 
 // Authenticated Routes
@@ -200,6 +216,15 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
 
             Route::get('scorecards/{user}', [ScorecardController::class, 'show'])
                 ->name('scorecards.show');
+
+            // HAZRAT - HR Reports
+            Route::get('reports', [HrReportController::class, 'index'])
+                ->name('reports.index');
+
+            Route::get('reports/export', [HrReportController::class, 'export'])
+             ->name('reports.export');
+
+                
         });
 
 
@@ -258,6 +283,18 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
         Route::post('my/timesheet/submit', [TimesheetController::class, 'submit'])
             ->name('timesheet.submit');
     });
+
+// Module 3 (Resat)
+// Freelancer Earnings
+Route::middleware('role:freelancer')->group(function () {
+
+    Route::get('my/earnings', [EarningsController::class, 'index'])
+        ->name('earnings.index');
+
+    Route::post('my/earnings/request', [EarningsController::class, 'requestPayout'])
+        ->name('earnings.request');
+
+});
 
 
     // Module 2 (Barson)
@@ -365,6 +402,43 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
             Route::post('users/{user}/invite', [UserController::class, 'resendInvite'])
                 ->name('users.invite');
         });
+
+    // Module 3 (Barson)
+    // Invoice & Billing Management
+
+    Route::middleware('role:super-admin|finance')->group(function () {
+
+    Route::get('payouts', [PayoutController::class, 'index'])
+        ->name('payouts.index');
+
+    Route::post('payouts', [PayoutController::class, 'store'])
+        ->name('payouts.store');
+
+    Route::get('payouts/{payout}', [PayoutController::class, 'show'])
+        ->name('payouts.show');
+
+    Route::patch('payouts/{payout}/approve', [PayoutController::class, 'approve'])
+        ->name('payouts.approve');
+
+    Route::patch('payouts/{payout}/paid', [PayoutController::class, 'markPaid'])
+        ->name('payouts.paid');
+
+    Route::patch('payouts/{payout}/reject', [PayoutController::class, 'reject'])
+        ->name('payouts.reject');
+
+}); 
+
+// Module 3 (Hazrat)
+// Finance Reports
+Route::middleware('role:super-admin|finance')->group(function () {
+
+    Route::get('reports/finance', [FinanceReportController::class, 'index'])
+        ->name('reports.finance');
+
+    Route::get('reports/finance/export', [FinanceReportController::class, 'export'])
+        ->name('reports.finance.export');
+
+});
 
 });
 
