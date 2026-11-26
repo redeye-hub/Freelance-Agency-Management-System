@@ -11,10 +11,13 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-3 sm:-my-px sm:ms-4 sm:flex min-w-0 text-xs">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @role('client')
+    <x-nav-link :href="route('portal.invoices')" :active="request()->routeIs('portal.*')">My Invoices</x-nav-link>
+@endrole
                     
 @hasanyrole('super-admin|project-manager')
     <x-nav-link :href="route('leads.index')" :active="request()->routeIs('leads.*')">Leads</x-nav-link>
@@ -24,9 +27,23 @@
     <x-nav-link :href="route('timesheets.review')" :active="request()->routeIs('timesheets.review')">Timesheets</x-nav-link>
 @endhasanyrole
 @hasanyrole('super-admin|finance')
-    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">Invoices</x-nav-link>
-    <x-nav-link :href="route('payouts.index')" :active="request()->routeIs('payouts.*')">Payouts</x-nav-link>
-    <x-nav-link :href="route('reports.finance')" :active="request()->routeIs('reports.finance*')">Finance</x-nav-link>
+<div class="hidden sm:flex sm:items-center">
+    <x-dropdown align="left" width="48">
+        <x-slot name="trigger">
+            <button class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none">
+                Finance
+                <svg class="ms-1 h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </x-slot>
+        <x-slot name="content">
+            <x-dropdown-link :href="route('invoices.index')">Invoices</x-dropdown-link>
+            <x-dropdown-link :href="route('payouts.index')">Payouts</x-dropdown-link>
+            <x-dropdown-link :href="route('reports.finance')">Finance reports</x-dropdown-link>
+        </x-slot>
+    </x-dropdown>
+</div>
 @endhasanyrole
 
 @role('super-admin')

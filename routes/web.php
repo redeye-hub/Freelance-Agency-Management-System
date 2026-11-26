@@ -13,6 +13,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PublicPaymentController;
 
+use App\Http\Controllers\ClientPortalController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Hr\CandidateController;
@@ -425,8 +426,35 @@ Route::middleware('role:freelancer')->group(function () {
 
     Route::patch('payouts/{payout}/reject', [PayoutController::class, 'reject'])
         ->name('payouts.reject');
+            Route::get('invoices', [InvoiceController::class, 'index'])
+        ->name('invoices.index');
+
+    Route::get('invoices/create', [InvoiceController::class, 'create'])
+        ->name('invoices.create');
+
+    Route::post('invoices', [InvoiceController::class, 'store'])
+        ->name('invoices.store');
+
+    Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])
+        ->name('invoices.show');
+
+    Route::post('invoices/{invoice}/send', [InvoiceController::class, 'send'])
+        ->name('invoices.send');
+
+    Route::get('invoices/{invoice}/pdf', [InvoiceController::class, 'pdf'])
+        ->name('invoices.pdf');
+
+    Route::post('invoices/{invoice}/paid', [InvoiceController::class, 'markPaid'])
+        ->name('invoices.paid');
+
+    Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])
+        ->name('invoices.void');
 
 }); 
+Route::middleware('role:client')->group(function () {
+    Route::get('my/invoices', [ClientPortalController::class, 'invoices'])->name('portal.invoices');
+    Route::get('my/invoices/{invoice}', [ClientPortalController::class, 'showInvoice'])->name('portal.invoices.show');
+});
 
 // Module 3 (Hazrat)
 // Finance Reports

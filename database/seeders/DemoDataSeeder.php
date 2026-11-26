@@ -43,7 +43,7 @@ class DemoDataSeeder extends Seeder
             );
         }
 
-        Client::firstOrCreate(['email' => 'hello@brightstudio.test'], [
+        Client::firstOrCreate(['email' => 'client@fams.test'], [
             'company_name' => 'Bright Studio',
             'contact_name' => 'Imran Hossain',
             'phone' => '+8801700000000',
